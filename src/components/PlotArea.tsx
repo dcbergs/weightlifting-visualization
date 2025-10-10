@@ -1,91 +1,46 @@
 import Plot from "react-plotly.js";
 import type { TrainingHistory, TrainingWeek } from "../data/model";
-import type { Data } from "plotly.js";
+import "./PlotArea.css";
+import { convertModelToPlotlyData } from "../data/convertModelToPlotlyData";
+
+// todo: can add some call to Plotly.Plots.resize() if I need
+// to make it respond to something other than window size
 
 interface PlotAreaProps {
   data: TrainingHistory;
+  selectedCycles: Set<string>;
+  selectedMetrics: Set<string>;
 }
 
-const lineTypeBank = [
-  "solid",
-  "dot",
-  "dash",
-  "longdash",
-  "dashdot",
-  "longdashdot",
-];
-
-const ColorBank = [
-  "#01a08d",
-  "#d2521f",
-  "#f6ab41",
-  "#ece659",
-  "#a6da4a",
-  "#4ada76",
-  "#4a78da",
-  "#7e4ada",
-  "#c14ada",
-  "#da4a9a",
-];
-
-function mapCycleNameToColor(cycleName: string) {
-  const foo = Math.round(Math.random() * 100);
-  return ColorBank[foo % ColorBank.length];
-}
-
-function PlotArea({ data }: PlotAreaProps) {
-  // dumb way to assign colors for now
-  data.cycles = data.cycles.map((cycle, idx) => ({
-    ...cycle,
-    color: ColorBank[idx % ColorBank.length],
-  }));
-
-  function convertMetricToPlotlyLine(
-    metric: string,
-    weeks: TrainingWeek[],
-    color: string,
-    cycleName: string,
-  ): Data {
-    // could add offset here
-    const x = weeks.map((w) => w.weekNumber);
-    const y = weeks.map((w) => {
-      const value = w.metricValues.get(metric);
-      if (value === undefined) {
-        throw new Error(
-          `could not find metric ${metric} in week ${w.weekNumber} for cycle ${cycleName}`,
-        );
-      }
-      // threw if undefined, but make the linter happy
-      return value ?? 0;
-    });
-    return {
-      type: "scatter",
-      mode: "lines",
-      line: {
-        color: color,
-        dash: "solid",
-        // 2 is default
-        width: 2,
-      },
-      x: x,
-      y: y,
-    };
-  }
-  console.log(data);
-  const plotlyData = data.cycles.flatMap((cycle) => {
-    return data.metrics.map((metric) =>
-      convertMetricToPlotlyLine(
-        metric.name,
-        cycle.weeks,
-        mapCycleNameToColor(cycle.name),
-        cycle.name,
-      ),
-    );
-  });
+function PlotArea({ data, selectedCycles, selectedMetrics }: PlotAreaProps) {
+  const plotlyData = convertModelToPlotlyData(
+    data,
+    selectedCycles,
+    selectedMetrics,
+  );
   return (
-    <>
-      <Plot data={[...plotlyData]} layout={{}} />
-    </>
+    <Plot
+      className="plot"
+      data={plotlyData}
+      layout={{
+        showlegend: false,
+        paper_bgcolor: "#111111",
+        plot_bgcolor: "#111111",
+        xaxis: {
+          // the small "tick" under the axis
+          tickcolor: "#555555",
+          // the grid of guide lines in the plot
+          gridcolor: "#555555",
+          tickfont: {
+            color: "#555555",
+          },
+          dtick: 1,
+        },
+      }}
+      useResizeHandler={true}
+      style={{ width: "100%", height: "100%", flexGrow: 1 }}
+      config={{ responsive: true }}
+    />
   );
 }
 

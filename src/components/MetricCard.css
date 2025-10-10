@@ -1,0 +1,15 @@
+/* for MUI version */
+/* .Mui-checked + div {
+  background-color: #444444;
+} */
+
+/* for basic version */
+.CardChecked {
+  background-color: #444444;
+}
+
+.CardUnchecked:hover 
+{
+  background-color: #333333;
+}
+

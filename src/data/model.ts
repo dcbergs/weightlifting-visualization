@@ -16,13 +16,13 @@ export type Cycle = {
 
 export type TrainingWeek = {
   dateWeekStart: Date;
-  weekNumber: number;
-  // map metric name to value
   metricValues: Map<string, number>;
+  // weeks out from competition
+  weeksOut: number;
 };
 
 export type Metric = {
   // must be unique
   name: string;
-  abbreviation?: string;
+  description: string;
 };

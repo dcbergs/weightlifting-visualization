@@ -1,10 +1,27 @@
+import { createTheme, CssBaseline, ThemeProvider } from "@mui/material";
 import WeightliftingComparison from "./components/WeightliftingComparison";
+import "./App.css";
 
+// const theme = createTheme({
+//   palette: {
+//     mode: "dark",
+//     background: {
+//       default: "#161616ff",
+//     },
+//     primary: {
+//       main: "#bababaff",
+//     },
+//     text: {
+//       primary: "#eeeeeeff",
+//     },
+//   },
+// });
 function App() {
   return (
-    <>
-      <WeightliftingComparison />
-    </>
+    // <ThemeProvider theme={theme}>
+    // <CssBaseline />
+    <WeightliftingComparison />
+    // </ThemeProvider>
   );
 }
 
