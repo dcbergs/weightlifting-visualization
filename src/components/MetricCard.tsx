@@ -1,4 +1,3 @@
-import { Checkbox, useTheme } from "@mui/material";
 import type { Metric } from "../data/model";
 import "./MetricCard.css";
 
@@ -22,13 +21,6 @@ function MetricCard({ metric, handleToggleMetric, checked }: MetricCardProps) {
         checked={checked}
       />
       {/* todo: probably make invisible checkbox smaller just in case */}
-      {/* <Checkbox
-        id={`checkbox-${metric.name}`}
-        className={"metricCard"}
-        style={{ position: "absolute", opacity: 0 }}
-        onChange={() => handleToggleMetric(metric.name)}
-        checked={checked}
-      /> */}
       <div
         className={checked ? "CardChecked" : "CardUnchecked"}
         style={{

@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { fakeTrainingHistory } from "../data/generateMockData";
 import CycleSelection from "./CycleSelection";
-import "./WeightliftingComparison.css";
 import MetricSorter from "./MetricSorter";
 import PlotArea from "./PlotArea";
 
 function WeightliftingComparison() {
-  const [data, _] = useState(fakeTrainingHistory);
+  // with fake data, default sort by date
+  const [cycles, setCycles] = useState(
+    fakeTrainingHistory.cycles.sort(
+      (a, b) => +a.weeks[0].dateWeekStart - +b.weeks[0].dateWeekStart,
+    ),
+  );
+  const [metrics, _] = useState(fakeTrainingHistory.metrics);
 
-  const cycleNames = data.cycles.map((c) => c.name);
+  const cycleNames = cycles.map((c) => c.name);
   // start with first two cycles active
   const defaultCycles = cycleNames.length > 2 ? cycleNames.slice(0, 2) : [];
 
@@ -16,7 +21,7 @@ function WeightliftingComparison() {
     new Set(defaultCycles),
   );
   // start with two metrics selected too
-  const metricNames = data.metrics.map((m) => m.name);
+  const metricNames = metrics.map((m) => m.name);
   const defaultMetrics =
     metricNames.find((m) => m === "classic reps") !== undefined &&
     metricNames.find((m) => m === "typical classic %") !== undefined
@@ -29,18 +34,20 @@ function WeightliftingComparison() {
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <PlotArea
-        data={data}
+        cycles={cycles}
+        metrics={metrics}
         selectedCycles={selectedCycles}
         selectedMetrics={selectedMetrics}
       />
-      <div className="controls">
+      <div style={{ display: "flex", marginLeft: "8px", marginRight: "8px" }}>
         <CycleSelection
-          cycles={data.cycles}
+          cycles={cycles}
+          setCycles={setCycles}
           selectedCycleNames={selectedCycles}
           setSelectedCycleNames={setSelectedCycles}
         />
         <MetricSorter
-          metrics={data.metrics}
+          metrics={metrics}
           selectedMetricNames={selectedMetrics}
           setSelectedMetricNames={setSelectedMetrics}
         />

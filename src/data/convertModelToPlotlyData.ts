@@ -1,6 +1,5 @@
 import type { Dash, Data } from "plotly.js";
-import type { TrainingHistory, TrainingWeek } from "./model";
-import { metricCategorization } from "./metricCategories";
+import type { Cycle, Metric, TrainingWeek } from "./model";
 
 // some color scheme tools:
 // https://colorbrewer2.org/#type=diverging&scheme=RdYlBu&n=10
@@ -34,19 +33,20 @@ const lineStyleCombos: { dash: Dash; width: number }[] = lineTypeBank.flatMap(
 );
 
 export function convertModelToPlotlyData(
-  data: TrainingHistory,
+  cycles: Cycle[],
+  metrics: Metric[],
   selectedCycles: Set<string>,
   selectedMetrics: Set<string>,
 ): Data[] {
   // we only support 10 colors; if someone injects 11 training cycles in here, there
   // will be repeats
   const colorMap = new Map(
-    data.cycles.map((c, idx) => [c.name, ColorBank[idx % ColorBank.length]]),
+    cycles.map((c, idx) => [c.name, ColorBank[idx % ColorBank.length]]),
   );
 
   // we're gonna need this in the metrics buttons too
   const lineStyleMap = new Map<string, { dash: Dash; width: number }>(
-    data.metrics.map((m, idx) => [
+    metrics.map((m, idx) => [
       m.name,
       lineStyleCombos[idx % lineStyleCombos.length],
     ]),
@@ -85,10 +85,10 @@ export function convertModelToPlotlyData(
     };
   }
 
-  return data.cycles
+  return cycles
     .filter((c) => selectedCycles.has(c.name))
     .flatMap((cycle) => {
-      return data.metrics
+      return metrics
         .filter((m) => selectedMetrics.has(m.name))
         .map((metric) =>
           convertMetricToPlotlyLine(metric.name, cycle.weeks, cycle.name),

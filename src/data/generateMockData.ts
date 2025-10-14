@@ -82,7 +82,8 @@ const cycles = [
     bestCj: 96,
     bestTotal: 94,
     rating: 67,
-    description: "some squatly training or whatever",
+    description:
+      "some squatly training or whatever, let's make a long description and see. Well now it's really gonna ruin the layout. Love that for us. Where else to put long-ass descriptions to make them readable but not ruin the entire page? Hard to say. Will my descriptions be this long? I can be wordy, especially about dumb weightlifting training things.",
     weeks: generateTrainingWeeks(10, new Date(2022, 6, 5)),
   },
   {
