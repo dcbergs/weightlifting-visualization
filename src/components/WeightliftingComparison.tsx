@@ -3,10 +3,10 @@ import { fakeTrainingHistory } from "../data/generateMockData";
 import CycleSelection from "./CycleSelection";
 import MetricSorter from "./MetricSorter";
 import PlotArea from "./PlotArea";
-import { lineStyleCombos } from "../data/convertModelToPlotlyData";
+import { ColorBank, lineStyleCombos } from "../data/convertModelToPlotlyData";
 
 function WeightliftingComparison() {
-  // with fake data, default sort by date
+  // default sort by date
   const [cycles, setCycles] = useState(
     fakeTrainingHistory.cycles.sort(
       (a, b) => +a.weeks[0].dateWeekStart - +b.weeks[0].dateWeekStart,
@@ -43,6 +43,14 @@ function WeightliftingComparison() {
     [metrics],
   );
 
+  const colorMap = useMemo(
+    () =>
+      new Map(
+        cycles.map((c, idx) => [c.name, ColorBank[idx % ColorBank.length]]),
+      ),
+    [cycles],
+  );
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <PlotArea
@@ -51,6 +59,7 @@ function WeightliftingComparison() {
         selectedCycles={selectedCycles}
         selectedMetrics={selectedMetrics}
         lineStyleMap={lineStyleMap}
+        colorMap={colorMap}
       />
       <div
         style={{
@@ -65,6 +74,7 @@ function WeightliftingComparison() {
           setCycles={setCycles}
           selectedCycleNames={selectedCycles}
           setSelectedCycleNames={setSelectedCycles}
+          colorMap={colorMap}
         />
         <MetricSorter
           metrics={metrics}

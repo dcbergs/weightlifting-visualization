@@ -5,7 +5,9 @@ import type { Cycle, Metric, TrainingWeek } from "./model";
 // https://colorbrewer2.org/#type=diverging&scheme=RdYlBu&n=10
 // https://colordesigner.io/gradient-generator
 
-const ColorBank = [
+// we only support 10 colors; if someone injects 11 training cycles in here, there
+// will be repeats
+export const ColorBank = [
   "#470000",
   "#912601",
   "#db7002",
@@ -18,7 +20,7 @@ const ColorBank = [
   "#16045d",
 ];
 
-const lineTypeBank = ["12 12", "", "12 4 4 4", "4 4", "20 20"];
+const lineTypeBank = ["12 12", "", "12 4 4 4", "4 4", "20 10"];
 
 const lineThicknessBank = [2, 4, 8];
 export const lineStyleCombos: { dash: string; width: number }[] =
@@ -32,13 +34,8 @@ export function convertModelToPlotlyData(
   selectedCycles: Set<string>,
   selectedMetrics: Set<string>,
   lineStyleMap: Map<string, { dash: string; width: number }>,
+  colorMap: Map<string, string>,
 ): Data[] {
-  // we only support 10 colors; if someone injects 11 training cycles in here, there
-  // will be repeats
-  const colorMap = new Map(
-    cycles.map((c, idx) => [c.name, ColorBank[idx % ColorBank.length]]),
-  );
-
   function convertMetricToPlotlyLine(
     metric: string,
     weeks: TrainingWeek[],

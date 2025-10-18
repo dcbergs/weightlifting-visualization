@@ -17,6 +17,7 @@ interface CycleSelectionProps {
   setCycles: React.Dispatch<SetStateAction<Cycle[]>>;
   selectedCycleNames: Set<string>;
   setSelectedCycleNames: (set: Set<string>) => void;
+  colorMap: Map<string, string>;
 }
 
 function CycleSelection({
@@ -24,6 +25,7 @@ function CycleSelection({
   setCycles,
   selectedCycleNames,
   setSelectedCycleNames,
+  colorMap,
 }: CycleSelectionProps) {
   const allCyclesSelected = cycles.length === selectedCycleNames.size;
 
@@ -83,7 +85,7 @@ function CycleSelection({
     setSortOrder(sortOrder);
   }
 
-  function buildRowFromCycle(cycle: Cycle) {
+  function buildRowFromCycle(cycle: Cycle, idx: number) {
     return (
       <React.Fragment key={cycle.name}>
         <TableRow
@@ -94,7 +96,7 @@ function CycleSelection({
           // row so that borders are always correct expanded or not
           sx={{ "& td": { borderBottom: 0 } }}
         >
-          <TableCell>
+          <TableCell align="center">
             <Checkbox
               checked={selectedCycleNames.has(cycle.name)}
               // prevent clicking on the checkbox causing the opening
@@ -103,7 +105,16 @@ function CycleSelection({
               onChange={() => handleToggleCycle(cycle.name)}
             />
           </TableCell>
-          {/**put color here in name cell? */}
+          <TableCell>
+            <div
+              style={{
+                width: "25px",
+                height: "25px",
+                borderRadius: "50%",
+                backgroundColor: colorMap.get(cycle.name) ?? "",
+              }}
+            ></div>
+          </TableCell>
           <TableCell>{cycle.name}</TableCell>
           <TableCell align="right">{cycle.rating}</TableCell>
           <TableCell sx={{ borderBottom: 0 }} align="right">
@@ -116,7 +127,7 @@ function CycleSelection({
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+          <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={8}>
             <Collapse
               in={expandedCycle === cycle.name}
               timeout="auto"
@@ -144,13 +155,14 @@ function CycleSelection({
     >
       <TableHead>
         <TableRow>
-          <TableCell>
+          <TableCell align="center">
             <Checkbox
               checked={allCyclesSelected}
               onChange={handleAllCheckbox}
               indeterminate={selectedCycleNames.size > 0 && !allCyclesSelected}
             />
           </TableCell>
+          <TableCell>{/* empty, corresponds to color blob */}</TableCell>
           <TableCell>Cycle</TableCell>
           <TableCell align="right">
             <TableSortLabel
@@ -229,7 +241,9 @@ function CycleSelection({
           </TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>{cycles.map((cycle) => buildRowFromCycle(cycle))}</TableBody>
+      <TableBody>
+        {cycles.map((cycle, idx) => buildRowFromCycle(cycle, idx))}
+      </TableBody>
     </Table>
   );
 }

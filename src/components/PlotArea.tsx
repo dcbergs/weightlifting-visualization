@@ -13,6 +13,7 @@ interface PlotAreaProps {
   selectedCycles: Set<string>;
   selectedMetrics: Set<string>;
   lineStyleMap: Map<string, { dash: string; width: number }>;
+  colorMap: Map<string, string>;
 }
 
 function PlotArea({
@@ -21,6 +22,7 @@ function PlotArea({
   selectedCycles,
   selectedMetrics,
   lineStyleMap,
+  colorMap,
 }: PlotAreaProps) {
   const plotlyData = useMemo(
     () =>
@@ -30,6 +32,7 @@ function PlotArea({
         selectedCycles,
         selectedMetrics,
         lineStyleMap,
+        colorMap,
       ),
     [cycles, metrics, selectedCycles, selectedMetrics, lineStyleMap],
   );
