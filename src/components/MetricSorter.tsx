@@ -6,11 +6,13 @@ interface MetricSorterProps {
   metrics: Metric[];
   selectedMetricNames: Set<string>;
   setSelectedMetricNames: (set: Set<string>) => void;
+  lineStyleMap: Map<string, { dash: string; width: number }>;
 }
 function MetricSorter({
   metrics,
   selectedMetricNames,
   setSelectedMetricNames,
+  lineStyleMap,
 }: MetricSorterProps) {
   return (
     <div
@@ -26,6 +28,7 @@ function MetricSorter({
         )}
         selectedMetricNames={selectedMetricNames}
         setSelectedMetricNames={setSelectedMetricNames}
+        lineStyleMap={lineStyleMap}
       />
       <MetricSubgroup
         metrics={metrics.filter((m) =>
@@ -33,6 +36,7 @@ function MetricSorter({
         )}
         selectedMetricNames={selectedMetricNames}
         setSelectedMetricNames={setSelectedMetricNames}
+        lineStyleMap={lineStyleMap}
       />
       <MetricSubgroup
         metrics={metrics.filter((m) =>
@@ -40,6 +44,7 @@ function MetricSorter({
         )}
         selectedMetricNames={selectedMetricNames}
         setSelectedMetricNames={setSelectedMetricNames}
+        lineStyleMap={lineStyleMap}
       />
       <MetricSubgroup
         metrics={metrics.filter((m) =>
@@ -47,6 +52,7 @@ function MetricSorter({
         )}
         selectedMetricNames={selectedMetricNames}
         setSelectedMetricNames={setSelectedMetricNames}
+        lineStyleMap={lineStyleMap}
       />
     </div>
   );

@@ -74,7 +74,7 @@ const cycles = [
     bestTotal: 100,
     rating: 90,
     description: "did some training here \n and some other cool stuff",
-    weeks: generateTrainingWeeks(10, new Date(2021, 6, 5)),
+    weeks: generateTrainingWeeks(9, new Date(2021, 6, 5)),
   },
   {
     name: "2022 squats",
@@ -84,7 +84,7 @@ const cycles = [
     rating: 67,
     description:
       "some squatly training or whatever, let's make a long description and see. Well now it's really gonna ruin the layout. Love that for us. Where else to put long-ass descriptions to make them readable but not ruin the entire page? Hard to say. Will my descriptions be this long? I can be wordy, especially about dumb weightlifting training things.",
-    weeks: generateTrainingWeeks(10, new Date(2022, 6, 5)),
+    weeks: generateTrainingWeeks(12, new Date(2022, 6, 5)),
   },
   {
     name: "2023 cycle",
@@ -93,7 +93,7 @@ const cycles = [
     bestTotal: 102,
     rating: 95,
     description: "here's another cycle",
-    weeks: generateTrainingWeeks(10, new Date(2023, 6, 5)),
+    weeks: generateTrainingWeeks(14, new Date(2023, 6, 5)),
   },
   {
     name: "2024",
@@ -102,7 +102,7 @@ const cycles = [
     bestTotal: 101,
     rating: 87,
     description: "some more training",
-    weeks: generateTrainingWeeks(10, new Date(2024, 6, 5)),
+    weeks: generateTrainingWeeks(16, new Date(2024, 6, 5)),
   },
   {
     name: "2025",
@@ -111,7 +111,7 @@ const cycles = [
     bestTotal: 97,
     rating: 67,
     description: "woohoo training",
-    weeks: generateTrainingWeeks(10, new Date(2025, 6, 5)),
+    weeks: generateTrainingWeeks(7, new Date(2025, 6, 5)),
   },
   {
     name: "another cool cycle",
@@ -129,7 +129,7 @@ const cycles = [
     bestTotal: 105,
     rating: 99,
     description: "goodest trainings",
-    weeks: generateTrainingWeeks(10, new Date(2022, 1, 5)),
+    weeks: generateTrainingWeeks(11, new Date(2022, 1, 5)),
   },
   {
     name: "big meet time",
@@ -138,7 +138,7 @@ const cycles = [
     bestTotal: 102,
     rating: 96,
     description: "here's another cycle",
-    weeks: generateTrainingWeeks(10, new Date(2023, 1, 5)),
+    weeks: generateTrainingWeeks(14, new Date(2023, 1, 5)),
   },
   {
     name: "bad meet time",
@@ -163,21 +163,21 @@ const cycles = [
 function generateTrainingWeeks(weekCount: number, startDate: Date) {
   const allMetricValues: Map<string, number[]> = new Map([
     ["classic reps", generateCoherentMetricOverXWeeks(weekCount, "down", 70)],
-    ["squat sets", generateCoherentMetricOverXWeeks(weekCount, "down", 25)],
-    ["pull/DL sets", generateCoherentMetricOverXWeeks(weekCount, "down", 19)],
-    ["WL acc sets", generateCoherentMetricOverXWeeks(weekCount, "down", 10)],
-    [
-      "non-WL acc sets",
-      generateCoherentMetricOverXWeeks(weekCount, "down", 55),
-    ],
     ["max sn %", generateCoherentMetricOverXWeeks(weekCount, "up", 80)],
     ["max jk %", generateCoherentMetricOverXWeeks(weekCount, "up", 80)],
     [
       "typical classic %",
       generateCoherentMetricOverXWeeks(weekCount, "up", 70),
     ],
+    ["squat sets", generateCoherentMetricOverXWeeks(weekCount, "down", 25)],
+    ["pull/DL sets", generateCoherentMetricOverXWeeks(weekCount, "down", 19)],
     ["max squat %", generateCoherentMetricOverXWeeks(weekCount, "up", 80)],
     ["max pull %", generateCoherentMetricOverXWeeks(weekCount, "up", 90)],
+    ["WL acc sets", generateCoherentMetricOverXWeeks(weekCount, "down", 10)],
+    [
+      "non-WL acc sets",
+      generateCoherentMetricOverXWeeks(weekCount, "down", 55),
+    ],
     ["avg fresh", generateCoherentMetricOverXWeeks(weekCount, "up", 2)],
     ["failed classic", generateCoherentMetricOverXWeeks(weekCount, "up", 2)],
     ["failed sq or pull", generateCoherentMetricOverXWeeks(weekCount, "up", 2)],

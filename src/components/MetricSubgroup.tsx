@@ -5,6 +5,7 @@ interface MetricSubgroupProps {
   metrics: Metric[];
   selectedMetricNames: Set<string>;
   setSelectedMetricNames: (set: Set<string>) => void;
+  lineStyleMap: Map<string, { dash: string; width: number }>;
 }
 // this could become something which allows the user to sort metrics into different categories
 // However, for my data, I know the metric categories which actually make sense, so this
@@ -13,6 +14,7 @@ function MetricSubgroup({
   metrics,
   selectedMetricNames,
   setSelectedMetricNames,
+  lineStyleMap,
 }: MetricSubgroupProps) {
   function handleToggleMetric(name: string) {
     if (selectedMetricNames.has(name)) {
@@ -29,6 +31,8 @@ function MetricSubgroup({
           metric={m}
           handleToggleMetric={handleToggleMetric}
           checked={selectedMetricNames.has(m.name)}
+          strokeWidth={lineStyleMap.get(m.name)?.width ?? 2}
+          strokeDashArray={lineStyleMap.get(m.name)?.dash ?? ""}
         />
       ))}
     </div>

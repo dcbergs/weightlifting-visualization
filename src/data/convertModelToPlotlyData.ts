@@ -18,25 +18,20 @@ const ColorBank = [
   "#16045d",
 ];
 
-const lineTypeBank: Dash[] = [
-  "solid",
-  "dot",
-  "dash",
-  "longdash",
-  "dashdot",
-  "longdashdot",
-];
+const lineTypeBank = ["12 12", "", "12 4 4 4", "4 4", "20 20"];
 
-const lineThicknessBank = [2, 4];
-const lineStyleCombos: { dash: Dash; width: number }[] = lineTypeBank.flatMap(
-  (type) => lineThicknessBank.map((thick) => ({ dash: type, width: thick })),
-);
+const lineThicknessBank = [2, 4, 8];
+export const lineStyleCombos: { dash: string; width: number }[] =
+  lineTypeBank.flatMap((type) =>
+    lineThicknessBank.map((thick) => ({ dash: type, width: thick })),
+  );
 
 export function convertModelToPlotlyData(
   cycles: Cycle[],
   metrics: Metric[],
   selectedCycles: Set<string>,
   selectedMetrics: Set<string>,
+  lineStyleMap: Map<string, { dash: string; width: number }>,
 ): Data[] {
   // we only support 10 colors; if someone injects 11 training cycles in here, there
   // will be repeats
@@ -44,24 +39,12 @@ export function convertModelToPlotlyData(
     cycles.map((c, idx) => [c.name, ColorBank[idx % ColorBank.length]]),
   );
 
-  // we're gonna need this in the metrics buttons too
-  const lineStyleMap = new Map<string, { dash: Dash; width: number }>(
-    metrics.map((m, idx) => [
-      m.name,
-      lineStyleCombos[idx % lineStyleCombos.length],
-    ]),
-  );
-
   function convertMetricToPlotlyLine(
     metric: string,
     weeks: TrainingWeek[],
     cycleName: string,
   ): Data {
-    // could add offset here
-    // const x = weeks.map((w) => w.weekNumber);
-    // actually probably just make data have "weeks out"
-    // but offset feature might be a thing
-    const x = weeks.map((w, idx) => idx + 1);
+    const x = weeks.map((w) => w.weeksOut);
     const y = weeks.map((w) => {
       const value = w.metricValues.get(metric);
       if (value === undefined) {
@@ -77,11 +60,12 @@ export function convertModelToPlotlyData(
       mode: "lines",
       line: {
         color: colorMap.get(cycleName) ?? "#ffffff",
-        dash: lineStyleMap.get(metric)?.dash ?? "solid",
+        dash: (lineStyleMap.get(metric)?.dash as Dash) ?? lineTypeBank[0],
         width: lineStyleMap.get(metric)?.width ?? 2,
       },
       x: x,
       y: y,
+      hoverinfo: "skip",
     };
   }
 

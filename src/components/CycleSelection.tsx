@@ -97,6 +97,9 @@ function CycleSelection({
           <TableCell>
             <Checkbox
               checked={selectedCycleNames.has(cycle.name)}
+              // prevent clicking on the checkbox causing the opening
+              // of the cycle's description too (as a TableRow click event)
+              onClick={(e) => e.stopPropagation()}
               onChange={() => handleToggleCycle(cycle.name)}
             />
           </TableCell>

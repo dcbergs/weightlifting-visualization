@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { fakeTrainingHistory } from "../data/generateMockData";
 import CycleSelection from "./CycleSelection";
 import MetricSorter from "./MetricSorter";
 import PlotArea from "./PlotArea";
+import { lineStyleCombos } from "../data/convertModelToPlotlyData";
 
 function WeightliftingComparison() {
   // with fake data, default sort by date
@@ -31,6 +32,17 @@ function WeightliftingComparison() {
     new Set(defaultMetrics),
   );
 
+  const lineStyleMap = useMemo(
+    () =>
+      new Map(
+        metrics.map((m, idx) => [
+          m.name,
+          lineStyleCombos[idx % lineStyleCombos.length],
+        ]),
+      ),
+    [metrics],
+  );
+
   return (
     <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <PlotArea
@@ -38,8 +50,16 @@ function WeightliftingComparison() {
         metrics={metrics}
         selectedCycles={selectedCycles}
         selectedMetrics={selectedMetrics}
+        lineStyleMap={lineStyleMap}
       />
-      <div style={{ display: "flex", marginLeft: "8px", marginRight: "8px" }}>
+      <div
+        style={{
+          display: "flex",
+          marginLeft: "8px",
+          marginRight: "8px",
+          justifyContent: "center",
+        }}
+      >
         <CycleSelection
           cycles={cycles}
           setCycles={setCycles}
@@ -50,6 +70,7 @@ function WeightliftingComparison() {
           metrics={metrics}
           selectedMetricNames={selectedMetrics}
           setSelectedMetricNames={setSelectedMetrics}
+          lineStyleMap={lineStyleMap}
         />
       </div>
     </div>
