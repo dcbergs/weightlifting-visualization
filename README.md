@@ -1,73 +1,15 @@
-# React + TypeScript + Vite
+# Weightlifting Visualization
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project aims to assist with qualitative visualization of training data for olympic-style weightlifting. The chart can visualize any combination of training cycles and weekly metrics recorded for those cycles as starting points for deeper investigation into what makes training cycles successful.
 
-Currently, two official plugins are available:
+## Tech 
+The application is a simple stand-alone React app, compiled with a Vite plugin to one html page, for local viewing by me or my coach. The chart made use of Plotly JS, and Material UI was used for some components/theming. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Demonstration
+![Screenshot](example.png)
+Note that cycles (left) and metrics (right) are toggleable. The cycle table is also sortable, allowing for rearranging the cycles. The color scheme stays in the same order, so "red vs blue" cycles can be compared for whichever metadata is the target of the sort. In the image above, sorted by cycle start date, the user can see at a glance how certain metrics differed between early cycles (all red and orange lines) and later ones (blue lines). 
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Development
+`npm run dev` to start debugging  
+`npm run build` to compile to an html file for 'distribution'  
+Run `convertCycles.py` to convert csv training data to a Typescript file
