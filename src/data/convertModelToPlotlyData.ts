@@ -49,8 +49,7 @@ export function convertModelToPlotlyData(
           `could not find metric ${metric} in week ${w} for cycle ${cycleName}`,
         );
       }
-      // already threw if undefined, but make the linter happy
-      return value ?? 0;
+      return value;
     });
     return {
       type: "scatter",

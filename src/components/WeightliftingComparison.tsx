@@ -1,18 +1,18 @@
 import { useMemo, useState } from "react";
-import { fakeTrainingHistory } from "../data/generateMockData";
 import CycleSelection from "./CycleSelection";
 import MetricSorter from "./MetricSorter";
 import PlotArea from "./PlotArea";
 import { ColorBank, lineStyleCombos } from "../data/convertModelToPlotlyData";
+import { realCycles, realMetrics } from "../data/realProcessedData";
 
 function WeightliftingComparison() {
   // default sort by date
   const [cycles, setCycles] = useState(
-    fakeTrainingHistory.cycles.sort(
+    realCycles.sort(
       (a, b) => +a.weeks[0].dateWeekStart - +b.weeks[0].dateWeekStart,
     ),
   );
-  const [metrics, _] = useState(fakeTrainingHistory.metrics);
+  const [metrics, _] = useState(realMetrics);
 
   const cycleNames = cycles.map((c) => c.name);
   // start with first two cycles active

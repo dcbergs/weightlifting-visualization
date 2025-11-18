@@ -85,7 +85,7 @@ function CycleSelection({
     setSortOrder(sortOrder);
   }
 
-  function buildRowFromCycle(cycle: Cycle, idx: number) {
+  function buildRowFromCycle(cycle: Cycle) {
     return (
       <React.Fragment key={cycle.name}>
         <TableRow
@@ -241,9 +241,7 @@ function CycleSelection({
           </TableCell>
         </TableRow>
       </TableHead>
-      <TableBody>
-        {cycles.map((cycle, idx) => buildRowFromCycle(cycle, idx))}
-      </TableBody>
+      <TableBody>{cycles.map((cycle) => buildRowFromCycle(cycle))}</TableBody>
     </Table>
   );
 }

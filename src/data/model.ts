@@ -16,7 +16,7 @@ export type Cycle = {
 
 export type TrainingWeek = {
   dateWeekStart: Date;
-  metricValues: Map<string, number>;
+  metricValues: Map<string, number | null>;
   // weeks out from competition
   weeksOut: number;
 };
